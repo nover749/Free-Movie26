@@ -1,134 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Dark Ops: Hacker Tic-Tac-Toe</title>
+  <meta charset="UTF-8">
+  <title>IPTV UI - Fixed Height</title>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background-color: black;
-      color: #00ff00;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: Arial, sans-serif;
+      background: url('https://www.transparenttextures.com/patterns/carbon-fibre-big.png'), radial-gradient(circle at center, #111 0%, #000 100%);
+      color: white;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .left {
+      width: 65%;
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo img {
+      width: 60px;
+    }
+
+    .content-wrapper {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .big-tile {
+      flex: 0 0 48%;
+      background: #1a1a1a;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border: 3px solid #222;
+      transition: 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .big-tile:hover {
+      border-color: #ff6600;
+      box-shadow: 0 0 12px #ff6600;
+      background: #2a2a2a;
+    }
+
+    .big-tile-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .big-tile img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    .big-tile span {
+      font-size: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+      flex: 1;
+    }
+
+    .tile {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      border: 2px solid #222;
+      transition: 0.2s;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
     }
 
-    h1 {
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px #00ff00;
+    .tile:hover {
+      border: 2px solid #ff6600;
+      box-shadow: 0 0 10px #ff6600;
+      background: #2a2a2a;
     }
 
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, 80px);
-      grid-template-rows: repeat(3, 80px);
-      gap: 5px;
+    .tile img {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 8px;
     }
 
-    .cell {
-      background-color: #111;
-      border: 2px solid #0f0;
+    .tile span {
+      font-size: 14px;
+    }
+
+    .right {
+      width: 35%;
+      padding: 30px 20px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      font-size: 2em;
+      background: #111;
+      border-left: 2px solid #222;
+    }
+
+    .preview {
+      width: 100%;
+      height: 80%;
+      background: url('https://m.media-amazon.com/images/M/MV5BNjQzZDMyZjctNzljOS00ZDM1LTk1NmQtOGUxNzdlNjhhYjM1XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg') no-repeat center center;
+      background-size: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 15px black;
+    }
+
+    .footer {
+      margin-top: auto;
+      font-size: 14px;
+      color: #aaa;
+      padding-top: 10px;
+    }
+
+    .section {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: #000;
+      padding: 50px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section h1 {
+      font-size: 36px;
+    }
+
+    .section button {
+      margin-top: 30px;
+      background: #333;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
-    .cell:hover {
-      background-color: #002200;
-    }
-
-    .message {
-      margin-top: 20px;
-      font-size: 18px;
-      text-shadow: 0 0 5px #00ff00;
-    }
-
-    button {
-      margin-top: 10px;
-      background: black;
-      border: 2px solid #00ff00;
-      color: #00ff00;
-      font-family: monospace;
-      padding: 8px 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #002200;
+    .section button:hover {
+      background: #555;
     }
   </style>
 </head>
 <body>
 
-  <h1>Dark Ops: Tic-Tac-Toe</h1>
-  <div class="board" id="board"></div>
-  <div class="message" id="message"></div>
-  <button onclick="resetGame()">Reset</button>
+<div class="app" id="home">
+  <div class="left">
+    <div class="logo">
+      <img src="https://img.icons8.com/color/96/retro-tv.png" alt="TV Logo">
+    </div>
 
-  <script>
-    const board = document.getElementById('board');
-    const message = document.getElementById('message');
-    let currentPlayer = 'X';
-    let cells = Array(9).fill(null);
+    <div class="content-wrapper">
+      <div class="big-tile" onclick="openSection('movies')">
+        <div class="big-tile-content">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/clapperboard.png" />
+          <span>🎬 Movies</span>
+        </div>
+      </div>
 
-    function checkWinner() {
-      const wins = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
-      ];
+      <div class="grid">
+        <div class="tile" onclick="openSection('settings')">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/settings.png" />
+          <span>Settings</span>
+        </div>
+        <div class="tile" onclick="openSection('about')">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/info.png" />
+          <span>About</span>
+        </div>
+        <div class="tile" onclick="openSection('more')">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" />
+          <span>More</span>
+        </div>
+        <div class="tile" onclick="openSection('help')">
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/help.png" />
+          <span>Help</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      for (let combo of wins) {
-        const [a, b, c] = combo;
-        if (cells[a] && cells[a] === cells[b] && cells[b] === cells[c]) {
-          return cells[a];
-        }
-      }
+  <div class="right">
+    <div class="preview"></div>
+    <div class="footer">Current playlist expires: 10/07/2025</div>
+  </div>
+</div>
 
-      if (cells.every(cell => cell)) return 'draw';
-      return null;
-    }
+<!-- Pages -->
+<div id="movies" class="section"><h1>🎬 Movies</h1><p>Movie content area.</p><button onclick="goHome()">← Back</button></div>
+<div id="settings" class="section"><h1>⚙️ Settings</h1><p>App settings go here.</p><button onclick="goHome()">← Back</button></div>
+<div id="about" class="section"><h1>ℹ️ About</h1><p>App info or credits.</p><button onclick="goHome()">← Back</button></div>
+<div id="more" class="section"><h1>➕ More</h1><p>Extra stuff here.</p><button onclick="goHome()">← Back</button></div>
+<div id="help" class="section"><h1>❓ Help</h1><p>Support section.</p><button onclick="goHome()">← Back</button></div>
 
-    function makeMove(index) {
-      if (cells[index] || checkWinner()) return;
-      cells[index] = currentPlayer;
-      render();
-      const winner = checkWinner();
-      if (winner) {
-        message.textContent = winner === 'draw' ? "No winner. It's a draw." : `Access Code Accepted: ${winner} Wins`;
-      } else {
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-        message.textContent = `Current Agent: ${currentPlayer}`;
-      }
-    }
+<script>
+  function openSection(id) {
+    document.getElementById('home').style.display = 'none';
+    document.getElementById(id).classList.add('active');
+  }
 
-    function render() {
-      board.innerHTML = '';
-      cells.forEach((val, i) => {
-        const cell = document.createElement('div');
-        cell.className = 'cell';
-        cell.textContent = val || '';
-        cell.onclick = () => makeMove(i);
-        board.appendChild(cell);
-      });
-    }
+  function goHome() {
+    document.getElementById('home').style.display = 'flex';
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  }
+</script>
 
-    function resetGame() {
-      cells = Array(9).fill(null);
-      currentPlayer = 'X';
-      message.textContent = 'Current Agent: X';
-      render();
-    }
-
-    // Initial load
-    render();
-    message.textContent = 'Current Agent: X';
-  </script>
 </body>
 </html>
