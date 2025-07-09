@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>IPTV UI - Fixed Height</title>
+  <meta charset="UTF-8" />
+  <title>IPTV UI - iPhone Compatible</title>
+
+  <!-- Viewport for iPhone / mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <!-- Apple Web App -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="IPTV UI" />
+
+  <!-- Apple touch icon (replace with your icon URL or base64) -->
+  <link rel="apple-touch-icon" href="https://img.icons8.com/color/96/retro-tv.png" />
+
+  <!-- Manifest embedded as data URL (minimal example) -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22IPTV%20UI%22%2C%22short_name%22%3A%22IPTV%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000%22%2C%22theme_color%22%3A%22%23ff6600%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimg.icons8.com%2Fcolor%2F96%2Fretro-tv.png%22%2C%22sizes%22%3A%2296x96%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D" />
+
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: Arial, sans-serif;
-      background: url('https://www.transparenttextures.com/patterns/carbon-fibre-big.png'), radial-gradient(circle at center, #111 0%, #000 100%);
+      background: url('https://www.transparenttextures.com/patterns/carbon-fibre-big.png'),
+        radial-gradient(circle at center, #111 0%, #000 100%);
       color: white;
       overflow: hidden;
       height: 100vh;
@@ -49,6 +69,7 @@
       border: 3px solid #222;
       transition: 0.2s ease-in-out;
       cursor: pointer;
+      user-select: none;
     }
 
     .big-tile:hover {
@@ -93,6 +114,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      user-select: none;
     }
 
     .tile:hover {
@@ -124,7 +146,8 @@
     .preview {
       width: 100%;
       height: 80%;
-      background: url('https://m.media-amazon.com/images/M/MV5BNjQzZDMyZjctNzljOS00ZDM1LTk1NmQtOGUxNzdlNjhhYjM1XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg') no-repeat center center;
+      background: url('https://m.media-amazon.com/images/M/MV5BNjQzZDMyZjctNzljOS00ZDM1LTk1NmQtOGUxNzdlNjhhYjM1XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg')
+        no-repeat center center;
       background-size: cover;
       border-radius: 10px;
       box-shadow: 0 0 15px black;
@@ -135,6 +158,7 @@
       font-size: 14px;
       color: #aaa;
       padding-top: 10px;
+      user-select: none;
     }
 
     .section {
@@ -146,6 +170,8 @@
       width: 100vw;
       background: #000;
       padding: 50px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .section.active {
@@ -154,6 +180,7 @@
 
     .section h1 {
       font-size: 36px;
+      margin-bottom: 20px;
     }
 
     .section button {
@@ -165,74 +192,165 @@
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
+      user-select: none;
     }
 
     .section button:hover {
       background: #555;
     }
+
+    /* Responsive for iPhone */
+    @media (max-width: 600px) {
+      body {
+        overflow: auto;
+      }
+      .app {
+        flex-direction: column;
+        height: 100vh;
+        overflow-y: auto;
+      }
+      .left,
+      .right {
+        width: 100%;
+        padding: 10px 15px;
+      }
+      .right {
+        height: 300px;
+        border-left: none;
+        border-top: 2px solid #222;
+      }
+      .preview {
+        height: 100%;
+      }
+      .big-tile {
+        flex: none;
+        margin-bottom: 15px;
+      }
+      .grid {
+        grid-template-columns: 1fr 1fr;
+        margin-top: 10px;
+        gap: 12px;
+      }
+      .section {
+        padding: 20px;
+      }
+      .section h1 {
+        font-size: 28px;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="app" id="home" role="main">
+    <div class="left">
+      <div class="logo">
+        <img src="https://img.icons8.com/color/96/retro-tv.png" alt="TV Logo" />
+      </div>
 
-<div class="app" id="home">
-  <div class="left">
-    <div class="logo">
-      <img src="https://img.icons8.com/color/96/retro-tv.png" alt="TV Logo">
+      <div class="content-wrapper">
+        <div class="big-tile" onclick="openSection('movies')" role="button" tabindex="0" aria-label="Open Movies Section" onkeypress="if(event.key==='Enter'){openSection('movies')}">
+          <div class="big-tile-content">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/clapperboard.png" alt="Movies Icon" />
+            <span>🎬 Movies</span>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="tile" onclick="openSection('settings')" role="button" tabindex="0" aria-label="Open Settings Section" onkeypress="if(event.key==='Enter'){openSection('settings')}">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/settings.png" alt="Settings Icon" />
+            <span>Settings</span>
+          </div>
+          <div class="tile" onclick="openSection('about')" role="button" tabindex="0" aria-label="Open About Section" onkeypress="if(event.key==='Enter'){openSection('about')}">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/info.png" alt="About Icon" />
+            <span>About</span>
+          </div>
+          <div class="tile" onclick="openSection('more')" role="button" tabindex="0" aria-label="Open More Section" onkeypress="if(event.key==='Enter'){openSection('more')}">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" alt="More Icon" />
+            <span>More</span>
+          </div>
+          <div class="tile" onclick="openSection('help')" role="button" tabindex="0" aria-label="Open Help Section" onkeypress="if(event.key==='Enter'){openSection('help')}">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/help.png" alt="Help Icon" />
+            <span>Help</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="content-wrapper">
-      <div class="big-tile" onclick="openSection('movies')">
-        <div class="big-tile-content">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/clapperboard.png" />
-          <span>🎬 Movies</span>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="tile" onclick="openSection('settings')">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/settings.png" />
-          <span>Settings</span>
-        </div>
-        <div class="tile" onclick="openSection('about')">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/info.png" />
-          <span>About</span>
-        </div>
-        <div class="tile" onclick="openSection('more')">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/plus-math.png" />
-          <span>More</span>
-        </div>
-        <div class="tile" onclick="openSection('help')">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/help.png" />
-          <span>Help</span>
-        </div>
-      </div>
+    <div class="right" aria-label="Preview and Playlist info">
+      <div class="preview" aria-label="Preview Image"></div>
+      <div class="footer">Current playlist expires: 10/07/2025</div>
     </div>
   </div>
 
-  <div class="right">
-    <div class="preview"></div>
-    <div class="footer">Current playlist expires: 10/07/2025</div>
+  <!-- Pages -->
+  <div
+    id="movies"
+    class="section"
+    role="region"
+    aria-labelledby="movies-title"
+    tabindex="-1"
+  >
+    <h1 id="movies-title">🎬 Movies</h1>
+    <p>Movie content area.</p>
+    <button onclick="goHome()" aria-label="Back to home">← Back</button>
   </div>
-</div>
+  <div
+    id="settings"
+    class="section"
+    role="region"
+    aria-labelledby="settings-title"
+    tabindex="-1"
+  >
+    <h1 id="settings-title">⚙️ Settings</h1>
+    <p>App settings go here.</p>
+    <button onclick="goHome()" aria-label="Back to home">← Back</button>
+  </div>
+  <div
+    id="about"
+    class="section"
+    role="region"
+    aria-labelledby="about-title"
+    tabindex="-1"
+  >
+    <h1 id="about-title">ℹ️ About</h1>
+    <p>App info or credits.</p>
+    <button onclick="goHome()" aria-label="Back to home">← Back</button>
+  </div>
+  <div
+    id="more"
+    class="section"
+    role="region"
+    aria-labelledby="more-title"
+    tabindex="-1"
+  >
+    <h1 id="more-title">➕ More</h1>
+    <p>Extra stuff here.</p>
+    <button onclick="goHome()" aria-label="Back to home">← Back</button>
+  </div>
+  <div
+    id="help"
+    class="section"
+    role="region"
+    aria-labelledby="help-title"
+    tabindex="-1"
+  >
+    <h1 id="help-title">❓ Help</h1>
+    <p>Support section.</p>
+    <button onclick="goHome()" aria-label="Back to home">← Back</button>
+  </div>
 
-<!-- Pages -->
-<div id="movies" class="section"><h1>🎬 Movies</h1><p>Movie content area.</p><button onclick="goHome()">← Back</button></div>
-<div id="settings" class="section"><h1>⚙️ Settings</h1><p>App settings go here.</p><button onclick="goHome()">← Back</button></div>
-<div id="about" class="section"><h1>ℹ️ About</h1><p>App info or credits.</p><button onclick="goHome()">← Back</button></div>
-<div id="more" class="section"><h1>➕ More</h1><p>Extra stuff here.</p><button onclick="goHome()">← Back</button></div>
-<div id="help" class="section"><h1>❓ Help</h1><p>Support section.</p><button onclick="goHome()">← Back</button></div>
+  <script>
+    function openSection(id) {
+      document.getElementById('home').style.display = 'none';
+      document.getElementById(id).classList.add('active');
+      document.getElementById(id).focus();
+    }
 
-<script>
-  function openSection(id) {
-    document.getElementById('home').style.display = 'none';
-    document.getElementById(id).classList.add('active');
-  }
-
-  function goHome() {
-    document.getElementById('home').style.display = 'flex';
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  }
-</script>
-
+    function goHome() {
+      document.getElementById('home').style.display = 'flex';
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById('home').focus();
+    }
+  </script>
 </body>
 </html>
